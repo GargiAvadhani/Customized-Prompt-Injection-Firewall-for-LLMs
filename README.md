@@ -15,6 +15,9 @@ Visible on a live Streamlit dashboard with charts and metrics
 The API surface is one endpoint: POST /inspect — send a prompt, get back a verdict (ALLOW/BLOCK), threat category, confidence score, and which layer caught it.
 
 Practical use: wrap any LLM call with a firewall check first. If blocked, return an error to the user. If allowed, proceed to your actual model.
+<img width="1919" height="850" alt="image" src="https://github.com/user-attachments/assets/f8450991-9df0-4879-9ac4-09f542766ec1" />
+<img width="1680" height="844" alt="image" src="https://github.com/user-attachments/assets/65eb48ac-4c46-4acf-874e-282438b8e73e" />
+
 ## Quick Start (5 minutes)
 
 ### 1. Clone / create project directory
