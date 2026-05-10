@@ -1,7 +1,20 @@
 # Prompt Injection Firewall
 
 3-layer LLM prompt injection detection API. Free tier only. No credit card required.
+This is security middleware API that screens user prompts before they reach an LLM, blocking attacks in real time.
 
+3-layer detection pipeline:
+
+Regex Rules (instant, ~1ms) — pattern-matches known attack strings like "ignore previous instructions", DAN jailbreaks, system prompt extraction attempts. Blocks immediately on high-confidence hits.
+Heuristic Scorer (instant, ~1ms) — scores the prompt on signals like imperative verb density, role-switch language ("you are now..."), authority claims ("I am your developer"), payload markers ([INST], <<SYS>>), and entropy anomalies. Blocks if score ≥ 80/100.
+LLM Classifier (Groq/Llama, ~300ms) — only reached if layers 1 & 2 are inconclusive. A small LLM makes the final ALLOW/BLOCK call with a threat category and explanation.
+Every decision is:
+
+Logged to SQLite with a prompt hash (raw prompt never stored)
+Visible on a live Streamlit dashboard with charts and metrics
+The API surface is one endpoint: POST /inspect — send a prompt, get back a verdict (ALLOW/BLOCK), threat category, confidence score, and which layer caught it.
+
+Practical use: wrap any LLM call with a firewall check first. If blocked, return an error to the user. If allowed, proceed to your actual model.
 ## Quick Start (5 minutes)
 
 ### 1. Clone / create project directory
